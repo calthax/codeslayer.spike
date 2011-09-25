@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 28
+/svn/!svn/ver/1397/spike/src
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/1397/spike/src/Makefile.in
+END
+spike-plugin.c
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/987/spike/src/spike-plugin.c
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/827/spike/src/Makefile.am
+END
