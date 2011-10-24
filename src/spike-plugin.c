@@ -70,7 +70,7 @@ activate (CodeSlayer *codeslayer)
   add_side_pane_widgets (codeslayer);
   add_bottom_pane_widgets (codeslayer);
   
-  file_path = codeslayer_get_active_group_file_path (codeslayer);
+  file_path = codeslayer_get_active_group_folder_path (codeslayer);
   g_print ("The active group file path %s\n", file_path);
   g_free (file_path);
 
