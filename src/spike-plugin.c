@@ -169,7 +169,7 @@ add_menubar_items (CodeSlayer *codeslayer)
     
     menubar_item = gtk_menu_item_new_with_label ("Spike");
     gtk_widget_add_accelerator (menubar_item, "activate", 
-                                accel_group, GDK_I, 
+                                accel_group, GDK_KEY_I, 
                                 GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
     codeslayer_add_to_menubar (codeslayer, GTK_MENU_ITEM (menubar_item));
     g_signal_connect(G_OBJECT (menubar_item), "activate", 
