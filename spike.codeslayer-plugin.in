@@ -1,5 +1,6 @@
 [plugin]
 lib=libspikeplugin
+version=@PACKAGE_VERSION@
 name=Spike Plugin
 description=An example plugin for CodeSlayer...contains funny Spike quotes.
 authors=Jeff Johnston <jeff.johnston.mn@gmail.com>

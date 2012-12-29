@@ -62,7 +62,7 @@ static gulong switched_handler_id;
 G_MODULE_EXPORT void
 activate (CodeSlayer *codeslayer)
 {
-  gchar* file_path;
+  gchar *folder_path;
   g_print ("Activate the spike plugin\n");
 
   add_menubar_items (codeslayer);
@@ -70,9 +70,9 @@ activate (CodeSlayer *codeslayer)
   add_side_pane_widgets (codeslayer);
   add_bottom_pane_widgets (codeslayer);
   
-  file_path = codeslayer_get_active_group_folder_path (codeslayer);
-  g_print ("The active group file path %s\n", file_path);
-  g_free (file_path);
+  folder_path = codeslayer_get_group_config_folder_path (codeslayer);
+  g_print ("The group config foledr path %s\n", folder_path);
+  g_free (folder_path);
 
   added_handler_id = g_signal_connect (G_OBJECT (codeslayer), "editor-added", 
                                        G_CALLBACK (editor_added_action), NULL);
