@@ -35,10 +35,10 @@ static void editor_saved_action        (CodeSlayer       *codeslayer,
 static void editor_switched_action     (CodeSlayer       *codeslayer, 
                                         CodeSlayerEditor *editor);
 static gchar* get_editor_basename      (CodeSlayerEditor *editor);
-static void add_menubar_items          (CodeSlayer       *codeslayer);
-static void remove_menubar_items       (CodeSlayer       *codeslayer);
+static void add_menu_bar_items          (CodeSlayer       *codeslayer);
+static void remove_menu_bar_items       (CodeSlayer       *codeslayer);
 static void remove_projects_tree_items (CodeSlayer       *codeslayer);
-static void menubar_action             (GtkAction        *action, 
+static void menu_bar_action             (GtkAction        *action, 
                                         CodeSlayer       *codeslayer);
 static void add_projects_tree_items    (CodeSlayer       *codeslayer);
 static void projects_tree_action       (GtkAction        *action, 
@@ -49,7 +49,7 @@ static void remove_side_pane_widgets   (CodeSlayer       *codeslayer);
 static void add_bottom_pane_widgets    (CodeSlayer       *codeslayer);
 static void remove_bottom_pane_widgets (CodeSlayer       *codeslayer);
 
-static GtkWidget *menubar_item;                       
+static GtkWidget *menu_bar_item;                       
 static GtkWidget *projects_tree_item;                   
 static GtkWidget *side_pane_widget;                   
 static GtkWidget *bottom_pane_widget;
@@ -65,7 +65,7 @@ activate (CodeSlayer *codeslayer)
   gchar *folder_path;
   g_print ("Activate the spike plugin\n");
 
-  add_menubar_items (codeslayer);
+  add_menu_bar_items (codeslayer);
   add_projects_tree_items (codeslayer);
   add_side_pane_widgets (codeslayer);
   add_bottom_pane_widgets (codeslayer);
@@ -91,7 +91,7 @@ G_MODULE_EXPORT void
 deactivate (CodeSlayer *codeslayer)
 {
   g_print ("Deactivate the spike plugin\n");
-  remove_menubar_items (codeslayer);
+  remove_menu_bar_items (codeslayer);
   remove_projects_tree_items (codeslayer);
   remove_side_pane_widgets (codeslayer);
   remove_bottom_pane_widgets (codeslayer);
@@ -162,24 +162,24 @@ get_editor_basename (CodeSlayerEditor *editor)
 }
 
 static void 
-add_menubar_items (CodeSlayer *codeslayer) 
+add_menu_bar_items (CodeSlayer *codeslayer) 
 {
     GtkAccelGroup *accel_group;    
-    accel_group = codeslayer_get_menubar_accel_group (codeslayer);
+    accel_group = codeslayer_get_menu_bar_accel_group (codeslayer);
     
-    menubar_item = gtk_menu_item_new_with_label ("Spike");
-    gtk_widget_add_accelerator (menubar_item, "activate", 
+    menu_bar_item = gtk_menu_item_new_with_label ("Spike");
+    gtk_widget_add_accelerator (menu_bar_item, "activate", 
                                 accel_group, GDK_KEY_I, 
                                 GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-    codeslayer_add_to_menubar (codeslayer, GTK_MENU_ITEM (menubar_item));
-    g_signal_connect(G_OBJECT (menubar_item), "activate", 
-                               G_CALLBACK (menubar_action), codeslayer);
+    codeslayer_add_to_menu_bar (codeslayer, GTK_MENU_ITEM (menu_bar_item));
+    g_signal_connect(G_OBJECT (menu_bar_item), "activate", 
+                               G_CALLBACK (menu_bar_action), codeslayer);
 }
 
 static void
-remove_menubar_items (CodeSlayer *codeslayer) 
+remove_menu_bar_items (CodeSlayer *codeslayer) 
 {
-  codeslayer_remove_from_menubar (codeslayer, GTK_MENU_ITEM (menubar_item));
+  codeslayer_remove_from_menu_bar (codeslayer, GTK_MENU_ITEM (menu_bar_item));
 }
 
 static void 
@@ -199,7 +199,7 @@ remove_projects_tree_items (CodeSlayer *codeslayer)
 }
 
 static void 
-menubar_action (GtkAction  *action, 
+menu_bar_action (GtkAction  *action, 
                 CodeSlayer *codeslayer) 
 {
   GtkWidget *dialog;
