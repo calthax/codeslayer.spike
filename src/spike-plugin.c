@@ -71,7 +71,7 @@ activate (CodeSlayer *codeslayer)
   add_bottom_pane_widgets (codeslayer);
   
   folder_path = codeslayer_get_group_config_folder_path (codeslayer);
-  g_print ("The group config foledr path %s\n", folder_path);
+  g_print ("The group config folder path %s\n", folder_path);
   g_free (folder_path);
 
   added_handler_id = g_signal_connect (G_OBJECT (codeslayer), "editor-added", 
