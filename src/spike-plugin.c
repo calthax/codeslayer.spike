@@ -22,32 +22,31 @@
 #include <gmodule.h>
 #include <glib.h>
 
-G_MODULE_EXPORT void activate          (CodeSlayer       *codeslayer);
-G_MODULE_EXPORT void deactivate        (CodeSlayer       *codeslayer);
-G_MODULE_EXPORT void configure         (CodeSlayer       *codeslayer);
+G_MODULE_EXPORT void activate           (CodeSlayer         *codeslayer);
+G_MODULE_EXPORT void deactivate         (CodeSlayer         *codeslayer);
+G_MODULE_EXPORT void configure          (CodeSlayer         *codeslayer);
                             
-static void editor_added_action        (CodeSlayer       *codeslayer, 
-                                        CodeSlayerEditor *editor);
-static void editor_removed_action      (CodeSlayer       *codeslayer, 
-                                        CodeSlayerEditor *editor);
-static void editor_saved_action        (CodeSlayer       *codeslayer, 
-                                        CodeSlayerEditor *editor);
-static void editor_switched_action     (CodeSlayer       *codeslayer, 
-                                        CodeSlayerEditor *editor);
-static gchar* get_editor_basename      (CodeSlayerEditor *editor);
-static void add_menu_bar_items          (CodeSlayer       *codeslayer);
-static void remove_menu_bar_items       (CodeSlayer       *codeslayer);
-static void remove_projects_tree_items (CodeSlayer       *codeslayer);
-static void menu_bar_action             (GtkAction        *action, 
-                                        CodeSlayer       *codeslayer);
-static void add_projects_tree_items    (CodeSlayer       *codeslayer);
-static void projects_tree_action       (GtkAction        *action, 
-                                        GList            *selections,
-                                        CodeSlayer       *codeslayer);
-static void add_side_pane_widgets      (CodeSlayer       *codeslayer);
-static void remove_side_pane_widgets   (CodeSlayer       *codeslayer);
-static void add_bottom_pane_widgets    (CodeSlayer       *codeslayer);
-static void remove_bottom_pane_widgets (CodeSlayer       *codeslayer);
+static void document_added_action       (CodeSlayer         *codeslayer, 
+                                         CodeSlayerDocument *document);
+static void document_removed_action     (CodeSlayer         *codeslayer, 
+                                         CodeSlayerDocument *document);
+static void document_saved_action       (CodeSlayer         *codeslayer, 
+                                         CodeSlayerDocument *document);
+static void document_switched_action    (CodeSlayer         *codeslayer, 
+                                         CodeSlayerDocument *document);
+static void add_menu_bar_items          (CodeSlayer         *codeslayer);
+static void remove_menu_bar_items       (CodeSlayer         *codeslayer);
+static void remove_projects_tree_items  (CodeSlayer         *codeslayer);
+static void menu_bar_action             (GtkAction          *action, 
+                                         CodeSlayer         *codeslayer);
+static void add_projects_tree_items     (CodeSlayer         *codeslayer);
+static void projects_tree_action        (GtkAction          *action, 
+                                         GList              *selections,
+                                         CodeSlayer         *codeslayer);
+static void add_side_pane_widgets       (CodeSlayer         *codeslayer);
+static void remove_side_pane_widgets    (CodeSlayer         *codeslayer);
+static void add_bottom_pane_widgets     (CodeSlayer         *codeslayer);
+static void remove_bottom_pane_widgets  (CodeSlayer         *codeslayer);
 
 static GtkWidget *menu_bar_item;                       
 static GtkWidget *projects_tree_item;                   
@@ -69,17 +68,17 @@ activate (CodeSlayer *codeslayer)
   add_side_pane_widgets (codeslayer);
   add_bottom_pane_widgets (codeslayer);
   
-  added_handler_id = g_signal_connect (G_OBJECT (codeslayer), "editor-added", 
-                                       G_CALLBACK (editor_added_action), NULL);
+  added_handler_id = g_signal_connect (G_OBJECT (codeslayer), "document-added", 
+                                       G_CALLBACK (document_added_action), NULL);
 
-  removed_handler_id = g_signal_connect (G_OBJECT (codeslayer), "editor-removed", 
-                                         G_CALLBACK (editor_removed_action), NULL);
+  removed_handler_id = g_signal_connect (G_OBJECT (codeslayer), "document-removed", 
+                                         G_CALLBACK (document_removed_action), NULL);
 
-  saved_handler_id = g_signal_connect (G_OBJECT (codeslayer), "editor-saved", 
-                                       G_CALLBACK (editor_saved_action), NULL);
+  saved_handler_id = g_signal_connect (G_OBJECT (codeslayer), "document-saved", 
+                                       G_CALLBACK (document_saved_action), NULL);
 
-  switched_handler_id = g_signal_connect (G_OBJECT (codeslayer), "editor-switched", 
-                                          G_CALLBACK (editor_switched_action), NULL);
+  switched_handler_id = g_signal_connect (G_OBJECT (codeslayer), "document-switched", 
+                                          G_CALLBACK (document_switched_action), NULL);
 }
 
 G_MODULE_EXPORT void 
@@ -114,46 +113,34 @@ configure (CodeSlayer *codeslayer)
 }
 
 static void 
-editor_added_action(CodeSlayer       *codeslayer, 
-                    CodeSlayerEditor *editor) {
-  gchar *basename = get_editor_basename (editor);
-  g_print ("Added the %s editor\n", basename);
-  g_free (basename);
+document_added_action(CodeSlayer         *codeslayer, 
+                      CodeSlayerDocument *document) {
+  const gchar *name = codeslayer_document_get_name (document);
+  g_print ("Added the %s document\n", name);
 }
 
 static void 
-editor_removed_action(CodeSlayer       *codeslayer, 
-                      CodeSlayerEditor *editor) 
+document_removed_action(CodeSlayer       *codeslayer, 
+                      CodeSlayerDocument *document) 
 {
-  gchar *basename = get_editor_basename (editor);
-  g_print ("Removed the %s editor\n", basename);
-  g_free (basename);
+  const gchar *name = codeslayer_document_get_name (document);
+  g_print ("Removed the %s document\n", name);
 }
 
 static void 
-editor_saved_action(CodeSlayer       *codeslayer, 
-                    CodeSlayerEditor *editor) 
+document_saved_action(CodeSlayer       *codeslayer, 
+                    CodeSlayerDocument *document) 
 {
-  gchar *basename = get_editor_basename (editor);
-  g_print ("Saved the %s editor \n", basename);
-  g_free (basename);
+  const gchar *name = codeslayer_document_get_name (document);
+  g_print ("Saved the %s document \n", name);
 }
 
 static void 
-editor_switched_action(CodeSlayer       *codeslayer, 
-                       CodeSlayerEditor *editor) 
+document_switched_action(CodeSlayer       *codeslayer, 
+                       CodeSlayerDocument *document) 
 {
-  gchar *basename = get_editor_basename (editor);
-  g_print ("Switched to the %s editor\n", basename);
-  g_free (basename);
-}
-
-static gchar* 
-get_editor_basename (CodeSlayerEditor *editor)
-{
-  CodeSlayerDocument *document;
-  document = codeslayer_editor_get_document (editor);
-  return g_path_get_basename (codeslayer_document_get_file_path (document));
+  const gchar *name = codeslayer_document_get_name (document);
+  g_print ("Switched to the %s document\n", name);
 }
 
 static void 
